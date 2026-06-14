@@ -1,0 +1,8 @@
+# credentials file - never push this to GitHub
+credentials.h
+
+# Arduino build files
+*.elf
+*.hex
+*.bin
+build/

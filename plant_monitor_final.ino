@@ -521,6 +521,7 @@ void handleMessages(int numMsgs) {
       msg += "Monitoring:\n";
       msg += "/status - current readings\n";
       msg += "/history - past readings\n";
+      msg += "/graph - show a 3-day data chart\n";
       msg += "/environment - temp & humidity\n\n";
       msg += "Watering:\n";
       msg += "/water - mark as watered\n";

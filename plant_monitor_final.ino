@@ -29,8 +29,9 @@ Adafruit_SSD1306 display(SCREEN_W, SCREEN_H, &Wire, OLED_RESET);
 // #define GREEN_LED 14
 
 // moisture calibration values - tested
-#define DRY_VAL 634
+#define DRY_VAL 620
 #define WET_VAL 401
+#define MOISTURE_SAMPLES 10
 
 // temp sensor setup
 #define DHT_TYPE DHT11
@@ -61,9 +62,9 @@ int moisture = 0;
 float temp = 0;
 float humidity = 0;
 
-// history tracking — one reading every 10 min
-#define HIST_SIZE 432         // ~3 days at 10 min intervals
-#define LOG_INTERVAL 2400000UL // 40 minutes in ms
+//history command
+#define HIST_SIZE 144           // 3 days at 30 min intervals (3*24*60/30)
+#define LOG_INTERVAL 1800000UL  // 30 minutes in ms
 const char* graphServer = "https://plantbot.hidenfree.com/generate_graph";
 
 uint8_t moistureHist[HIST_SIZE];
@@ -239,9 +240,19 @@ int getDistance() {
   return readings[samples / 2];
 }
 
+// average moisture reading to reduce noise
+int readMoistureAvg() {
+  long sum = 0;
+  for (int i = 0; i < MOISTURE_SAMPLES; i++) {
+    sum += analogRead(MOISTURE_PIN);
+    delay(10);
+  }
+  return sum / MOISTURE_SAMPLES;
+}
+
 // read all sensors
 void readSensors() {
-  int raw = analogRead(MOISTURE_PIN);
+  int raw = readMoistureAvg();
   moisture = map(raw, WET_VAL, DRY_VAL, 100, 0);
   moisture = constrain(moisture, 0, 100);
 

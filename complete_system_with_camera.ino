@@ -28,11 +28,11 @@ Adafruit_SSD1306 display(SCREEN_W, SCREEN_H, &Wire, OLED_RESET);
 #define ECHO_PIN 16     // D0
 #define DHT_PIN 2       // D4
 
-// moisture calibration values (found through testing)
+// Moisture calibration values (found through testing)
 #define DRY_VAL 95
 #define WET_VAL 64
 
-// temp sensor setup - had to calibrate because readings were off
+// Temperature sensor setup (calibrated for accurate readings)
 #define DHT_TYPE DHT11
 DHT dht(DHT_PIN, DHT_TYPE);
 #define TEMP_OFFSET 20.0
@@ -41,7 +41,7 @@ DHT dht(DHT_PIN, DHT_TYPE);
 WiFiClientSecure client;
 UniversalTelegramBot bot(botToken, client);
 
-// timing variables
+// Timing variables
 unsigned long lastBotCheck;
 unsigned long lastAlert = 0;
 unsigned long lastWatered = 0;
@@ -54,7 +54,7 @@ float humidity = 0;
 int distance = 0;
 bool displayOn = true;
 
-// settings
+// Settings
 String plantName = "My Plant";
 int alertThreshold = 30;
 int moistureHistory[10];
@@ -93,7 +93,7 @@ void setup() {
   
   dht.begin();
   
-  // connect wifi
+  // Connect to WiFi
   Serial.print("connecting to wifi");
   display.println("WiFi...");
   display.display();

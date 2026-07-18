@@ -83,7 +83,7 @@ void performScan() {
       delay(500);  // Settle time
     }
     
-    // Measure light (placeholder for now)
+    // Measure light (placeholder)
     int lightValue = readLight();
     
     Serial.print("Position: ");

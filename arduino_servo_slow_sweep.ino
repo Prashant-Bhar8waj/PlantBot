@@ -14,9 +14,9 @@ int targetPos = 90;
 int delayTime = 20;         // Delay between steps (ms) - increase for slower movement
 
 // Calibration: 140mm stick length
-// Target displacement: 780mm (78cm)
-// Linear displacement: 0° = 0mm, 180° = 780mm
-// So 1° = 4.33mm linear displacement
+// Target displacement: 780 mm (78 cm)
+// Linear displacement: 0° = 0 mm, 180° = 780 mm
+// 1° ≈ 4.33 mm of linear travel
 
 void setup() {
   Serial.begin(9600);
@@ -64,7 +64,7 @@ void loop() {
     Serial.println("  ✓ Reached 180°");
     delay(500);
     
-    // Quick return to start for next revolution
+    // Return to start for next revolution
     if (revolution < 4) {
       Serial.println("  Returning to 0° for next revolution...");
       moveToPosition(0);
@@ -89,7 +89,7 @@ void loop() {
     Serial.println("  ✓ Reached 0°");
     delay(500);
     
-    // Quick return to start for next revolution
+    // Return to start for next revolution
     if (revolution < 4) {
       Serial.println("  Returning to 180° for next revolution...");
       moveToPosition(180);
@@ -147,7 +147,7 @@ void moveToPosition(int target) {
   }
 }
 
-// Convert degrees to linear displacement in millimeters
+// Convert degrees to millimetres of linear travel
 // 0° to 180° = 780mm displacement
 float degreesToMM(int degrees) {
   return (degrees / 180.0) * 780.0;

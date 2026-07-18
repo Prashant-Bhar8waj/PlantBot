@@ -3,7 +3,7 @@
 // NO LIBRARY NEEDED - Uses ESP32 built-in PWM
 // 140mm stick, 780mm displacement
 
-// Servo pin - D0 (GPIO 1) on XIAO ESP32-S3
+// Servo pin: D0 (GPIO 1) on XIAO ESP32-S3
 #define SERVO_PIN 1
 
 // PWM settings
@@ -158,7 +158,7 @@ void moveToPosition(int target) {
   }
 }
 
-// Convert degrees to linear displacement in millimeters
+// Convert degrees to millimetres of linear travel
 float degreesToMM(int degrees) {
   return (degrees / 180.0) * 780.0;
 }

@@ -5,23 +5,23 @@
 #include <WiFiClientSecure.h>
 #include <UniversalTelegramBot.h>
 
-// OLED Display
+// OLED display
 #define SCREEN_WIDTH 128
 #define SCREEN_HEIGHT 64
 #define OLED_RESET -1
 Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, OLED_RESET);
 
-// Moisture Sensor
+// Moisture sensor
 #define MOISTURE_PIN A0
 #define DRY_VALUE 95    // Sensor in air (your calibration: 93-96)
 #define WET_VALUE 64    // Sensor in water (your calibration: 63-65)
 
-// LED Pins
+// LED pin definitions
 #define RED_LED 13      // D7 - Very dry
 #define YELLOW_LED 15   // D8 - Dry
 #define GREEN_LED 14    // D5 - Good
 
-// credentials in separate file, not pushed to github
+// Credentials are loaded from credentials.h (gitignored)
 #include "credentials.h"
 
 WiFiClientSecure client;
@@ -327,7 +327,7 @@ void loop() {
   // Check if moisture alert needed
   checkMoistureAlert();
   
-  // Check for Telegram messages
+  // Poll Telegram for new messages
   if (millis() - lastTimeBotRan > botRequestDelay) {
     int numNewMessages = bot.getUpdates(bot.last_message_received + 1);
     

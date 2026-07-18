@@ -6,18 +6,18 @@
 #include <UniversalTelegramBot.h>
 #include <DHT.h>
 
-// OLED Display
+// OLED display
 #define SCREEN_WIDTH 128
 #define SCREEN_HEIGHT 64
 #define OLED_RESET -1
 Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, OLED_RESET);
 
-// Moisture Sensor
+// Moisture sensor
 #define MOISTURE_PIN A0
 #define DRY_VALUE 95
 #define WET_VALUE 64
 
-// LED Pins
+// LED pin definitions
 #define RED_LED 13      // D7
 #define YELLOW_LED 15   // D8
 #define GREEN_LED 14    // D5
@@ -35,7 +35,7 @@ DHT dht(DHT_PIN, DHT_TYPE);
 #define TEMP_OFFSET 20.0      // Add to raw temp reading
 #define HUMIDITY_OFFSET 35.0  // Add to raw humidity reading
 
-// credentials in separate file, not pushed to github
+// Credentials are loaded from credentials.h (gitignored)
 #include "credentials.h"
 
 WiFiClientSecure client;

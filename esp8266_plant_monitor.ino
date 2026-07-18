@@ -11,27 +11,27 @@
 #include <DHT.h>
 #include "credentials.h"  // WiFi/telegram credentials (not pushed to GitHub)
 
-// display setup
+// Set up the OLED display
 #define SCREEN_W 128
 #define SCREEN_H 64
 #define OLED_RESET -1
 Adafruit_SSD1306 display(SCREEN_W, SCREEN_H, &Wire, OLED_RESET);
 
-// sensor pins
+// Sensor pin definitions
 #define MOISTURE_PIN A0
 #define DHT_PIN 2
 #define TRIG_PIN 12
 #define ECHO_PIN 16
 
-// LED outputs
+// LED pin definitions
 #define RED_LED 13
 
-// moisture calibration values - tested
+// Moisture calibration values (tested)
 #define DRY_VAL 620
 #define WET_VAL 401
 #define MOISTURE_SAMPLES 10
 
-// temp sensor setup
+// Temperature and humidity sensor setup
 #define DHT_TYPE DHT11
 DHT dht(DHT_PIN, DHT_TYPE);
 #define TEMP_OFFSET 20.0
@@ -41,24 +41,24 @@ DHT dht(DHT_PIN, DHT_TYPE);
 WiFiClientSecure client;
 UniversalTelegramBot bot(botToken, client);
 
-// timing variables
+// Timing variables
 unsigned long lastBotCheck;
 unsigned long lastAlert = 0;
 unsigned long lastWatered = 0;
 unsigned long displayTimer = 0;
 
-// settings
+// Settings
 int alertThreshold = 30;
 String plantName = "My Salad";
 bool displayActive = false;
 int proximityDist = 60; // in cm
 
-// sensor readings
+// Latest sensor readings
 int moisture = 0;
 float temp = 0;
 float humidity = 0;
 
-//history command
+// History command
 #define HIST_SIZE 144           // 3 days at 30 min intervals (3*24*60/30)
 #define LOG_INTERVAL 1800000UL  // 30 minutes in ms
 
@@ -95,21 +95,21 @@ void setup() {
   display.println("Starting up...");
   display.display();
 
-  // setup pins
+  // Configure I/O pins
   pinMode(MOISTURE_PIN, INPUT);
   pinMode(RED_LED, OUTPUT);
   pinMode(TRIG_PIN, OUTPUT);
   pinMode(ECHO_PIN, INPUT);
 
-  // turn off LEDs
+  // Turn off LEDs
   digitalWrite(RED_LED, LOW);
 
-  // init DHT sensor
+  // Initialize DHT sensor
   pinMode(DHT_PIN, INPUT_PULLUP);
   dht.begin();
   delay(2000); // wait for sensor to stabilize
 
-  // test DHT
+  // Test DHT sensor
   float testTemp = dht.readTemperature();
   if (isnan(testTemp)) {
     Serial.println("DHT not responding");
@@ -121,7 +121,7 @@ void setup() {
     Serial.println(testTemp);
   }
 
-  // connect wifi
+  // Connect to WiFi
   Serial.print("Connecting to WiFi");
   display.setCursor(0, 20);
   display.println("WiFi connecting...");
@@ -152,7 +152,7 @@ void setup() {
   displayTimer = millis();
 }
 
-// read distance from ultrasonic (median of 5 readings to reduce jumpiness)
+// Read distance from ultrasonic (median of 5 samples for stability)
 int getDistance() {
   const int samples = 5;
   int readings[samples];
@@ -194,7 +194,7 @@ int readMoistureAvg() {
   return sum / MOISTURE_SAMPLES;
 }
 
-// read all sensors
+// Read all sensors
 void readSensors() {
   int raw = readMoistureAvg();
   moisture = map(raw, WET_VAL, DRY_VAL, 100, 0);
@@ -243,7 +243,7 @@ void readSensors() {
   Serial.println("%");
 }
 
-// control LEDs based on moisture
+// Update LED state from moisture level
 void updateLEDs() {
   if (moisture < 20) {
     digitalWrite(RED_LED, HIGH);
@@ -324,7 +324,7 @@ void drawFace() {
   }
 }
 
-// update OLED display
+// Update OLED display
 void updateDisplay() {
   if (!displayActive) {
     display.clearDisplay();
@@ -381,7 +381,7 @@ void updateDisplay() {
   display.display();
 }
 
-// check proximity and turn display on/off
+// Toggle display based on proximity
 void checkProximity() {
   int dist = getDistance();
 
@@ -403,7 +403,7 @@ void checkProximity() {
   }
 }
 
-// send alert if moisture low
+// Send alert if soil is too dry
 void checkAlert() {
   if (moisture < alertThreshold && (millis() - lastAlert > 300000)) {
     String msg = "Alert! ";
@@ -429,7 +429,7 @@ void checkAlert() {
   }
 }
 
-// handle telegram commands
+// Handle Telegram commands
 void handleMessages(int numMsgs) {
   for (int i = 0; i < numMsgs; i++) {
     String chat = String(bot.messages[i].chat_id);

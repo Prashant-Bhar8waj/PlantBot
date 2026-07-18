@@ -5,7 +5,7 @@
 #include <WiFiClientSecure.h>
 #include <UniversalTelegramBot.h>
 
-// credentials in separate file
+// Credentials are loaded from credentials.h
 #include "credentials.h"
 
 WiFiClientSecure client;
@@ -15,7 +15,7 @@ void setup() {
   Serial.begin(115200);
   Serial.println("\nWiFi + Telegram test");
   
-  // connect wifi
+  // Connect to WiFi
   Serial.print("connecting to: ");
   Serial.println(ssid);
   
@@ -43,7 +43,7 @@ void setup() {
   
   client.setInsecure();
   
-  // send test message
+  // Send test message
   Serial.println("\nsending test message to Telegram...");
   bool sent = bot.sendMessage(chatID, "test message from ESP8266 - WiFi and Telegram working!", "");
   

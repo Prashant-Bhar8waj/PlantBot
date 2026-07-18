@@ -183,7 +183,7 @@ void loop() {
     return;
   }
   
-  // Check for Telegram messages
+  // Poll Telegram for new messages
   if (millis() - lastBotCheck > 1000) {
     int numNew = bot.getUpdates(bot.last_message_received + 1);
     

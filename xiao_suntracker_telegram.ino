@@ -7,7 +7,7 @@
 #include <ESP32Servo.h>
 #include "credentials.h"  // WiFi/telegram credentials (not pushed to GitHub)
 
-// Hardware pins
+// Hardware pin definitions
 #define SERVO_PIN 1   // D0
 #define LDR_PIN 2     // D1 (analog capable)
 
@@ -91,7 +91,7 @@ void setup() {
 }
 
 void loop() {
-  // Check for Telegram messages
+  // Poll Telegram for new messages
   int numNewMessages = bot.getUpdates(bot.last_message_received + 1);
   
   while (numNewMessages) {

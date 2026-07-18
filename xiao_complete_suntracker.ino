@@ -11,12 +11,12 @@
 #include <ESP32Servo.h>
 #include "credentials.h"  // WiFi/telegram/plant.id credentials (not pushed to GitHub)
 
-// Hardware pins
+// Hardware pin definitions
 #define SERVO_PIN 1   // D0
 #define LDR_PIN 2     // D1
 #define USER_LED 21   // Onboard LED
 
-// Camera pins (XIAO ESP32S3 Sense - don't change)
+// Camera pin definitions for XIAO ESP32-S3 Sense
 #define PWDN_GPIO_NUM     -1
 #define RESET_GPIO_NUM    -1
 #define XCLK_GPIO_NUM     10
@@ -286,7 +286,7 @@ void setup() {
 }
 
 void loop() {
-  // Check for Telegram messages
+  // Poll Telegram for new messages
   if (millis() - lastBotCheck > 1500) {
     int numNewMessages = bot.getUpdates(bot.last_message_received + 1);
     

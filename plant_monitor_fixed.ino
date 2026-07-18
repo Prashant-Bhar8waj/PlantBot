@@ -13,28 +13,28 @@
 // credentials stored in separate file (not pushed to GitHub)
 #include "credentials.h"
 
-// display setup
+// Set up the OLED display
 #define SCREEN_W 128
 #define SCREEN_H 64
 #define OLED_RESET -1
 Adafruit_SSD1306 display(SCREEN_W, SCREEN_H, &Wire, OLED_RESET);
 
-// sensor pins
+// Sensor pin definitions
 #define MOISTURE_PIN A0
 #define DHT_PIN 2  
 #define TRIG_PIN 12
 #define ECHO_PIN 16
 
-// LED outputs
+// LED pin definitions
 #define RED_LED 13
 #define YELLOW_LED 15
 #define GREEN_LED 14
 
-// moisture calibration values (found through testing)
+// Moisture calibration values (found through testing)
 #define DRY_VAL 634
 #define WET_VAL 380
 
-// temp sensor setup - had to calibrate because readings were off
+// Temperature sensor setup (calibrated for accurate readings)
 #define DHT_TYPE DHT11
 DHT dht(DHT_PIN, DHT_TYPE);
 #define TEMP_OFFSET 20.0
@@ -43,19 +43,19 @@ DHT dht(DHT_PIN, DHT_TYPE);
 WiFiClientSecure client;
 UniversalTelegramBot bot(botToken, client);
 
-// timing variables
+// Timing variables
 unsigned long lastBotCheck = 0;
 unsigned long lastAlert = 0;
 unsigned long lastWatered = 0;
 unsigned long displayTimer = 0;
 
-// settings
+// Settings
 int alertThreshold = 30;
 String plantName = "My Plant";
 bool displayActive = false;
 int proximityDist = 60; //this is in cm
 
-// sensor readings
+// Latest sensor readings
 int moisture = 0;
 float temp = 0;
 float humidity = 0;
@@ -83,7 +83,7 @@ void setup() {
   display.println("Starting up...");
   display.display();
   
-  // setup pins
+  // Configure I/O pins
   pinMode(MOISTURE_PIN, INPUT);
   pinMode(RED_LED, OUTPUT);
   pinMode(YELLOW_LED, OUTPUT);
@@ -91,17 +91,17 @@ void setup() {
   pinMode(TRIG_PIN, OUTPUT);
   pinMode(ECHO_PIN, INPUT);
   
-  // turn off LEDs
+  // Turn off LEDs
   digitalWrite(RED_LED, LOW);
   digitalWrite(YELLOW_LED, LOW);
   digitalWrite(GREEN_LED, LOW);
   
-  // init DHT sensor
+  // Initialize DHT sensor
   pinMode(DHT_PIN, INPUT_PULLUP);
   dht.begin();
   delay(2000);  // wait for sensor to stabilize
   
-  // test DHT
+  // Test DHT sensor
   float testTemp = dht.readTemperature();
   if (isnan(testTemp)) {
     Serial.println("DHT not responding");
@@ -113,7 +113,7 @@ void setup() {
     Serial.println(testTemp);
   }
   
-  // connect wifi
+  // Connect to WiFi
   Serial.print("Connecting to WiFi");
   display.setCursor(0, 20);
   display.println("WiFi connecting...");
@@ -145,7 +145,7 @@ void setup() {
   displayTimer = millis();
 }
 
-// reading distance from ultrasonic
+// Read distance from ultrasonic
 int getDistance() { //ultrasonic sensor sometimes return a junk value, so we take the median
   const int samples = 5;
   int readings[samples];
@@ -178,7 +178,7 @@ int getDistance() { //ultrasonic sensor sometimes return a junk value, so we tak
   return readings[samples / 2];  // the middle value = median
 }
 
-// read all sensors
+// Read all sensors
 void readSensors() {
   // moisture
   int raw = analogRead(MOISTURE_PIN);
@@ -239,7 +239,7 @@ void readSensors() {
   Serial.println("%");
 }
 
-// control LEDs based on moisture
+// Update LED state from moisture level
 void updateLEDs() {
   digitalWrite(RED_LED, LOW);
   digitalWrite(YELLOW_LED, LOW);
@@ -254,7 +254,7 @@ void updateLEDs() {
   }
 }
 
-// update OLED display
+// Update OLED display
 void updateDisplay() {
   if (!displayActive) {
     display.clearDisplay();
@@ -314,7 +314,7 @@ void updateDisplay() {
   display.display();
 }
 
-// check proximity and turn display on/off
+// Toggle display based on proximity
 void checkProximity() {
   int dist = getDistance();
   
@@ -338,7 +338,7 @@ void checkProximity() {
   }
 }
 
-// send alert if moisture low
+// Send alert if soil is too dry
 void checkAlert() {
   if (moisture < alertThreshold && (millis() - lastAlert > 300000)) {
     String msg = "Alert! ";
@@ -364,7 +364,7 @@ void checkAlert() {
   }
 }
 
-// handle telegram commands
+// Handle Telegram commands
 void handleMessages(int numMsgs) {
   for (int i = 0; i < numMsgs; i++) {
     String chat = String(bot.messages[i].chat_id);

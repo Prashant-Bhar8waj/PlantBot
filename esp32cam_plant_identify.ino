@@ -81,7 +81,7 @@ void setupCamera() {
 String identifyPlant(camera_fb_t* fb) {
   Serial.println("encoding image...");
 
-  // base64 encode the image
+  // Base64-encode the image
   size_t encodedLen = ((fb->len + 2) / 3) * 4 + 1;
   unsigned char* encoded = (unsigned char*)malloc(encodedLen);
 
@@ -220,7 +220,7 @@ void setup() {
 
   setupCamera();
 
-  // connect to wifi
+  // Connect to WiFi
   Serial.print("connecting to wifi");
   WiFi.begin(ssid, password);
   while (WiFi.status() != WL_CONNECTED) {

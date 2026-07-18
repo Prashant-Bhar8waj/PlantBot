@@ -1,5 +1,7 @@
-# credentials file - never push this to GitHub
+# Credentials and standalone files that embed secrets - never push these to GitHub
 credentials.h
+esp32cam_standalone.ino
+*_standalone.ino
 
 # macOS
 .DS_Store

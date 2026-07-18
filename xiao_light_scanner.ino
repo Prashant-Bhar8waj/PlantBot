@@ -35,8 +35,6 @@ void setup() {
   myServo.attach(SERVO_PIN, 500, 2400);
   myServo.write(SERVO_STOP);
   
-  // pinMode(LDR_PIN, INPUT);  // Uncomment when LDR is connected
-  
   Serial.println("\nReady. Platform at START (0cm)");
   Serial.println("Type 's' to start scanning!");
 }
@@ -143,9 +141,6 @@ void moveDistance(float distanceCm) {
 }
 
 int readLight() {
-  // Placeholder - returns random value for now
-  // When LDR is connected with resistor, uncomment:
-  // return analogRead(LDR_PIN);
-  
-  return random(100, 4000);  // Simulated light value
+  // Simulated light value (replace with analogRead(LDR_PIN) when LDR is connected)
+  return random(100, 4000);
 }

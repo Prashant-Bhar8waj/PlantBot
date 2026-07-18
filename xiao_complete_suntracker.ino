@@ -70,7 +70,7 @@ LightNeed classifyLightNeed(String name) {
   String n = name;
   n.toLowerCase();
 
-  // --- Full sun plants ---
+  // Full sun plants
   const char* fullSun[] = {
     "succulent", "cactus", "cacti", "aloe", "echeveria", "sedum", "agave",
     "rosemary", "basil", "thyme", "lavender", "tomato", "pepper", "sunflower",
@@ -80,7 +80,7 @@ LightNeed classifyLightNeed(String name) {
     if (n.indexOf(fullSun[i]) >= 0) return LIGHT_FULL_SUN;
   }
 
-  // --- Shade / low-light plants ---
+  // Shade / low-light plants
   const char* shade[] = {
     "fern", "snake plant", "sansevieria", "zz plant", "zamioculcas",
     "pothos", "philodendron", "peace lily", "spathiphyllum", "calathea",
@@ -90,7 +90,7 @@ LightNeed classifyLightNeed(String name) {
     if (n.indexOf(shade[i]) >= 0) return LIGHT_SHADE;
   }
 
-  // --- Partial / bright indirect light plants ---
+  // Partial / bright indirect light plants
   const char* partial[] = {
     "monstera", "ficus", "rubber", "fittonia", "begonia", "coleus",
     "african violet", "saintpaulia", "anthurium", "schefflera",
@@ -170,7 +170,7 @@ void setupCamera() {
   // tweak sensor settings for better image quality
   sensor_t* s = esp_camera_sensor_get();
   if (s) {
-    // --- Exposure: photos were washed-out/overexposed, so pull it down ---
+    // Exposure: photos were washed-out/overexposed, so pull it down
     s->set_brightness(s, 2);         // -2 to 2, max brighter for dim rooms
     s->set_contrast(s, 1);           // -2 to 2
     s->set_saturation(s, 1);         // boost color (fixes washed-out look)
@@ -184,7 +184,7 @@ void setupCamera() {
     s->set_agc_gain(s, 0);           // reset gain
     s->set_gainceiling(s, GAINCEILING_16X);  // allow more gain in low light
 
-    // --- White balance: fixes the green/white color cast ---
+    // White balance: fixes the green/white color cast
     s->set_whitebal(s, 1);           // auto white balance on
     s->set_awb_gain(s, 1);           // AWB gain on
     s->set_wb_mode(s, 0);            // 0=auto (try 1=sunny if indoors still green)

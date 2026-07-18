@@ -25,8 +25,6 @@ Adafruit_SSD1306 display(SCREEN_W, SCREEN_H, &Wire, OLED_RESET);
 
 // LED outputs
 #define RED_LED 13
-// #define YELLOW_LED 15
-// #define GREEN_LED 14
 
 // moisture calibration values - tested
 #define DRY_VAL 620
@@ -100,15 +98,11 @@ void setup() {
   // setup pins
   pinMode(MOISTURE_PIN, INPUT);
   pinMode(RED_LED, OUTPUT);
-  // pinMode(YELLOW_LED, OUTPUT);
-  // pinMode(GREEN_LED, OUTPUT);
   pinMode(TRIG_PIN, OUTPUT);
   pinMode(ECHO_PIN, INPUT);
 
   // turn off LEDs
   digitalWrite(RED_LED, LOW);
-  // digitalWrite(YELLOW_LED, LOW);
-  // digitalWrite(GREEN_LED, LOW);
 
   // init DHT sensor
   pinMode(DHT_PIN, INPUT_PULLUP);

@@ -1,7 +1,6 @@
 // ESP32-CAM plant identification
 // takes photo when /identify is sent on telegram
 // sends photo to plant.id API and returns plant name
-//
 // board: Seeed Studio XIAO ESP32S3 Sense
 // upload: just plug in USB-C, no FTDI needed
 

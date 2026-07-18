@@ -9,17 +9,7 @@
 #include <ArduinoJson.h>
 #include "mbedtls/base64.h"
 #include <ESP32Servo.h>
-
-// WiFi credentials
-const char* ssid = "Prashant";
-const char* password = "Prashant12";
-
-// Telegram credentials
-const char* botToken = "8931561780:AAGWKCfq83UCRrzIlP_SoxRHVrma18o9FFg";
-const char* chatID = "731794798";
-
-// Plant.ID API key
-const char* plantIdApiKey = "cHl8vZmJMYY9Dgxb3jRxcBvGAFr3sliBAGS4kiCQe0go1Hr8NJ";
+#include "credentials.h"  // WiFi/telegram/plant.id credentials (not pushed to GitHub)
 
 // Hardware pins
 #define SERVO_PIN 1   // D0

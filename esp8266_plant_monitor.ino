@@ -9,6 +9,7 @@
 #include <WiFiClientSecure.h>
 #include <UniversalTelegramBot.h>
 #include <DHT.h>
+#include "credentials.h"  // WiFi/telegram credentials (not pushed to GitHub)
 
 // display setup
 #define SCREEN_W 128
@@ -38,13 +39,6 @@ DHT dht(DHT_PIN, DHT_TYPE);
 #define TEMP_OFFSET 20.0
 #define HUMIDITY_OFFSET 35.0
 
-// WiFi credentials
-const char* ssid = "Prashant";
-const char* password = "Prashant12";
-
-// Telegram credentials
-const char* botToken = "8931561780:AAGWKCfq83UCRrzIlP_SoxRHVrma18o9FFg";
-const char* chatID = "731794798";
 
 WiFiClientSecure client;
 UniversalTelegramBot bot(botToken, client);

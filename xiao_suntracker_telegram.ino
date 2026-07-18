@@ -5,14 +5,7 @@
 #include <WiFiClientSecure.h>
 #include <UniversalTelegramBot.h>
 #include <ESP32Servo.h>
-
-// WiFi credentials
-const char* ssid = "Prashant";
-const char* password = "Prashant12";
-
-// Telegram credentials
-const char* botToken = "8931561780:AAGWKCfq83UCRrzIlP_SoxRHVrma18o9FFg";
-const char* chatID = "731794798";
+#include "credentials.h"  // WiFi/telegram credentials (not pushed to GitHub)
 
 // Hardware pins
 #define SERVO_PIN 1   // D0

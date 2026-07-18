@@ -1,20 +1,13 @@
 // XIAO ESP32-S3 Camera + Servo Control via Telegram
 // Rack and pinion mechanism with camera on stick
 // Adjust TRAVEL_TIME_MS to calibrate full 14cm travel
-// ⚠️ DO NOT PUSH THIS FILE TO GITHUB - contains credentials
 
 #include <WiFi.h>
 #include <WiFiClientSecure.h>
 #include <UniversalTelegramBot.h>
 #include <ESP32Servo.h>
 #include "esp_camera.h"
-
-// ========== CREDENTIALS ==========
-const char* ssid = "dud2_2";
-const char* password = "University283";
-const char* botToken = "8931561780:AAGWKCfq83UCRrzIlP_SoxRHVrma18o9FFg";
-const char* chatID = "731794798";
-// =================================
+#include "credentials.h"  // WiFi/telegram credentials (not pushed to GitHub)
 
 // Servo setup
 Servo myServo;

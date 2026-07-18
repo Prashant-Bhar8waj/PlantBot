@@ -1,6 +1,23 @@
 # credentials file - never push this to GitHub
 credentials.h
 
+# macOS
+.DS_Store
+
+# Paper/report files (keep repo code-only)
+Interactive_Systems_2023___Paper_Template/
+reseearch_paper/
+*.pdf
+
+# LaTeX build files
+*.aux
+*.log
+*.out
+*.bbl
+*.blg
+*.toc
+*.synctex.gz
+
 # Arduino build files
 *.elf
 *.hex

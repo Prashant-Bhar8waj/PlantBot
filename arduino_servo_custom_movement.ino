@@ -13,7 +13,7 @@ int delayTime = 20;  // Speed control (lower = faster, higher = slower)
 
 void setup() {
   Serial.begin(9600);
-  Serial.println("=== Custom Servo Movement ===");
+  Serial.println("Custom Servo Movement");
   Serial.println("Stick: 140mm (Movement: 0° = 0mm, 180° = 780mm)");
   Serial.println();
   
@@ -56,26 +56,26 @@ void loop() {
 
 void handleCommand(String cmd) {
   if (cmd == "min") {
-    Serial.println("→ Moving to minimum (0mm / 0°)");
+    Serial.println("Moving to minimum (0mm / 0°)");
     moveToPosition(0);
   }
   else if (cmd == "max") {
-    Serial.println("→ Moving to maximum (780mm / 180°)");
+    Serial.println("Moving to maximum (780mm / 180°)");
     moveToPosition(180);
   }
   else if (cmd == "center") {
-    Serial.println("→ Moving to center (390mm / 90°)");
+    Serial.println("Moving to center (390mm / 90°)");
     moveToPosition(90);
   }
   else if (cmd == "sweep") {
-    Serial.println("→ Starting sweep cycle");
-    Serial.println("  Moving to 780mm...");
+    Serial.println("Starting sweep cycle");
+    Serial.println("Moving to 780mm...");
     moveToPosition(180);
     delay(1000);
-    Serial.println("  Moving to 0mm...");
+    Serial.println("Moving to 0mm...");
     moveToPosition(0);
     delay(1000);
-    Serial.println("✓ Sweep complete");
+    Serial.println("Sweep complete");
   }
   else if (cmd == "status") {
     printStatus();
@@ -99,7 +99,7 @@ void handleCommand(String cmd) {
     int mm = cmd.substring(1).toInt();
     if (mm >= 0 && mm <= 780) {
       int degrees = mmToDegrees(mm);
-      Serial.print("→ Moving to ");
+      Serial.print("Moving to ");
       Serial.print(mm);
       Serial.print("mm (");
       Serial.print(degrees);
@@ -113,7 +113,7 @@ void handleCommand(String cmd) {
     // Try to parse as angle
     int angle = cmd.toInt();
     if (angle >= 0 && angle <= 180) {
-      Serial.print("→ Moving to ");
+      Serial.print("Moving to ");
       Serial.print(angle);
       Serial.print("° (");
       Serial.print(degreesToMM(angle));
@@ -146,7 +146,7 @@ void moveToPosition(int target) {
 }
 
 void printStatus() {
-  Serial.print("✓ Position: ");
+  Serial.print("Position: ");
   Serial.print(currentPos);
   Serial.print("° = ");
   Serial.print(degreesToMM(currentPos), 1);

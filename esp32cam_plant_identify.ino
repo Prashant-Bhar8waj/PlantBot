@@ -137,7 +137,7 @@ String identifyPlant(camera_fb_t* fb) {
         result = "no plant found - try clearer photo";
       } else {
         String topName   = doc["suggestions"][0]["plant_name"].as<String>();
-        float  topProb   = doc["suggestions"][0]["probability"].as<float>();
+        float topProb   = doc["suggestions"][0]["probability"].as<float>();
         String common    = "";
 
         // get common name if available
@@ -156,7 +156,7 @@ String identifyPlant(camera_fb_t* fb) {
         result += "\nTop " + String(showCount) + " matches:\n";
         for (int i = 0; i < showCount; i++) {
           String n = doc["suggestions"][i]["plant_name"].as<String>();
-          float  p = doc["suggestions"][i]["probability"].as<float>();
+          float p = doc["suggestions"][i]["probability"].as<float>();
           result += String(i + 1) + ". " + n + " - " + String(p * 100, 0) + "%\n";
         }
       }

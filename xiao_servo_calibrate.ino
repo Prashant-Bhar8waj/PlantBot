@@ -10,7 +10,7 @@ Servo myServo;
 void setup() {
   Serial.begin(115200);
   delay(1000);
-  Serial.println("\n=== FS90R Calibration ===");
+  Serial.println("\nFS90R Calibration");
   Serial.println("Type values 85-95 to find EXACT neutral (no noise/movement)");
   Serial.println("Once neutral found:");
   Serial.println("  200 = Spin clockwise 2 seconds");

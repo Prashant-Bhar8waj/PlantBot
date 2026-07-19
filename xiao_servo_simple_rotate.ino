@@ -10,7 +10,7 @@ Servo myServo;
 void setup() {
   Serial.begin(115200);
   delay(1000);
-  Serial.println("=== Simple Rotation Test ===");
+  Serial.println("Simple Rotation Test");
   
   myServo.attach(SERVO_PIN, 500, 2400);
   myServo.write(90);  // Stop

@@ -9,7 +9,7 @@ DHT dht22(DHT_PIN, DHT22);
 
 void setup() {
   Serial.begin(115200);
-  Serial.println("\n=== DHT Auto-Detect Test ===\n");
+  Serial.println("\nDHT Auto-Detect Test");
   
   pinMode(DHT_PIN, INPUT_PULLUP);
   
@@ -52,7 +52,6 @@ void loop() {
     Serial.println("DHT22 FAILED");
   }
   
-  Serial.println("\n=============================");
   
   // Determine which one looks correct
   if (!isnan(temp11) && temp11 > 10 && temp11 < 40) {
@@ -62,7 +61,6 @@ void loop() {
     Serial.println(" DHT22 looks correct!");
   }
   
-  Serial.println("=============================\n");
   
   delay(3000);
 }

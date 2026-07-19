@@ -14,7 +14,7 @@ Servo myServo;
 void setup() {
   Serial.begin(115200);
   delay(1000);
-  Serial.println("=== Servo Test ===");
+  Serial.println("Servo Test");
   Serial.println("0-180 = raw value (find neutral)");
   Serial.println("200   = FORWARD then stop");
   Serial.println("201   = BACKWARD then stop");

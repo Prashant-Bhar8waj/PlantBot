@@ -69,7 +69,7 @@ void loop() {
       Serial.println(" message(s):");
       
       for (int i = 0; i < msgs; i++) {
-        Serial.print("  from: ");
+        Serial.print(" from: ");
         Serial.print(bot.messages[i].from_name);
         Serial.print(" | text: ");
         Serial.println(bot.messages[i].text);

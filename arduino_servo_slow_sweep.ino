@@ -20,7 +20,7 @@ int delayTime = 20;         // Delay between steps (ms) - increase for slower mo
 
 void setup() {
   Serial.begin(9600);
-  Serial.println("=== Servo Slow Movement Control ===");
+  Serial.println("Servo Slow Movement Control");
   Serial.println("Stick length: 140mm");
   Serial.println("Movement range:");
   Serial.println("  0 degrees = 0mm");
@@ -40,8 +40,8 @@ void setup() {
   Serial.println("mm)");
   Serial.println();
   Serial.println("Movement sequence:");
-  Serial.println("1. 4 FORWARD revolutions (0° → 180°)");
-  Serial.println("2. 4 BACKWARD revolutions (180° → 0°)");
+  Serial.println("1. 4 FORWARD revolutions (0°  180°)");
+  Serial.println("2. 4 BACKWARD revolutions (180°  0°)");
   Serial.println("Total: 8 movements, 1440° rotation");
   Serial.println("Then pause 3 seconds and repeat");
   Serial.println();
@@ -50,57 +50,57 @@ void setup() {
 }
 
 void loop() {
-  // 4 FORWARD revolutions (0° → 180°)
-  Serial.println("\n╔════════════════════════════╗");
-  Serial.println("║  4 FORWARD REVOLUTIONS     ║");
-  Serial.println("╚════════════════════════════╝");
+  // 4 FORWARD revolutions (0°  180°)
+  Serial.println("\n");
+  Serial.println("  4 FORWARD REVOLUTIONS ");
+  Serial.println("");
   
   for (int revolution = 1; revolution <= 4; revolution++) {
-    Serial.print("→ Forward Revolution ");
+    Serial.print(" Forward Revolution ");
     Serial.print(revolution);
     Serial.println(" of 4");
-    Serial.println("  Moving to 180° (780mm)...");
+    Serial.println(" Moving to 180° (780mm)...");
     moveToPosition(180);
-    Serial.println("  ✓ Reached 180°");
+    Serial.println(" Reached 180°");
     delay(500);
     
     // Return to start for next revolution
     if (revolution < 4) {
-      Serial.println("  Returning to 0° for next revolution...");
+      Serial.println(" Returning to 0° for next revolution...");
       moveToPosition(0);
       delay(500);
     }
   }
   
-  Serial.println("✓ Completed 4 forward revolutions!\n");
+  Serial.println(" Completed 4 forward revolutions!\n");
   delay(1000);
   
-  // 4 BACKWARD revolutions (180° → 0°)
-  Serial.println("╔════════════════════════════╗");
-  Serial.println("║  4 BACKWARD REVOLUTIONS    ║");
-  Serial.println("╚════════════════════════════╝");
+  // 4 BACKWARD revolutions (180°  0°)
+  Serial.println("");
+  Serial.println("  4 BACKWARD REVOLUTIONS ");
+  Serial.println("");
   
   for (int revolution = 1; revolution <= 4; revolution++) {
-    Serial.print("← Backward Revolution ");
+    Serial.print(" Backward Revolution ");
     Serial.print(revolution);
     Serial.println(" of 4");
-    Serial.println("  Moving to 0° (0mm)...");
+    Serial.println(" Moving to 0° (0mm)...");
     moveToPosition(0);
-    Serial.println("  ✓ Reached 0°");
+    Serial.println(" Reached 0°");
     delay(500);
     
     // Return to start for next revolution
     if (revolution < 4) {
-      Serial.println("  Returning to 180° for next revolution...");
+      Serial.println(" Returning to 180° for next revolution...");
       moveToPosition(180);
       delay(500);
     }
   }
   
-  Serial.println("✓ Completed 4 backward revolutions!\n");
-  Serial.println("═══════════════════════════════════");
-  Serial.println("✓✓✓ FULL CYCLE COMPLETE! ✓✓✓");
-  Serial.println("═══════════════════════════════════\n");
+  Serial.println(" Completed 4 backward revolutions!\n");
+  Serial.println("");
+  Serial.println(" FULL CYCLE COMPLETE! ");
+  Serial.println("\n");
   Serial.println("Pausing 3 seconds before next cycle...\n");
   delay(3000);
 }
@@ -118,7 +118,7 @@ void moveToPosition(int target) {
       
       // Print progress every 10 degrees
       if (pos % 10 == 0) {
-        Serial.print("  Position: ");
+        Serial.print(" Position: ");
         Serial.print(pos);
         Serial.print("° (");
         Serial.print(degreesToMM(pos));
@@ -135,7 +135,7 @@ void moveToPosition(int target) {
       
       // Print progress every 10 degrees
       if (pos % 10 == 0) {
-        Serial.print("  Position: ");
+        Serial.print(" Position: ");
         Serial.print(pos);
         Serial.print("° (");
         Serial.print(degreesToMM(pos));

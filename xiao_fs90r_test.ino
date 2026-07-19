@@ -1,9 +1,9 @@
 // XIAO ESP32-S3 + FS90R Continuous Rotation Servo Test
 // Servo: FS90R (factory continuous rotation)
 // Connection:
-//   Servo Brown → XIAO GND
-//   Servo Red   → XIAO 5V (VBUS)
-//   Servo Orange → XIAO D0 (GPIO 1)
+// Servo Brown XIAO GND
+// Servo Red XIAO 5V (VBUS)
+// Servo Orange XIAO D0 (GPIO 1)
 
 #include <ESP32Servo.h>
 
@@ -14,9 +14,9 @@ Servo myServo;
 void setup() {
   Serial.begin(115200);
   delay(1000);
-  Serial.println("\n=== FS90R Servo Test ===");
+  Serial.println("\nFS90R Servo Test");
   Serial.println("Find neutral first:");
-  Serial.println("  Type 90, then 88, 89, 91, 92 until servo STOPS");
+  Serial.println(" Type 90, then 88, 89, 91, 92 until servo STOPS");
   Serial.println("");
   Serial.println("Once neutral is found:");
   Serial.println("  200 = FORWARD 1 second");

@@ -108,9 +108,9 @@ LightNeed classifyLightNeed(String name) {
 String lightNeedLabel(LightNeed need) {
   switch (need) {
     case LIGHT_FULL_SUN: return "Full sun (brightest spot)";
-    case LIGHT_PARTIAL:  return "Bright indirect / partial (medium spot)";
-    case LIGHT_SHADE:    return "Shade / low light (dimmest spot)";
-    default:             return "Unknown (defaulting to partial)";
+    case LIGHT_PARTIAL: return "Bright indirect / partial (medium spot)";
+    case LIGHT_SHADE: return "Shade / low light (dimmest spot)";
+    default: return "Unknown (defaulting to partial)";
   }
 }
 
@@ -211,7 +211,7 @@ void setup() {
   Serial.begin(115200);
   delay(1000);
   
-  Serial.println("\n=== Sun Tracking Robot with Camera ===");
+  Serial.println("\nSun Tracking Robot with Camera");
   
   pinMode(USER_LED, OUTPUT);
   digitalWrite(USER_LED, LOW);
@@ -254,7 +254,7 @@ void setup() {
   client.setInsecure();
   
   // Send startup message
-  String msg = "🌞🌿 Sun Tracker + Plant ID Online!\n\n";
+  String msg = "Sun Tracker + Plant ID Online!\n\n";
   msg += "Movement Commands:\n";
   msg += "/scan - Scan track & show light values\n";
   msg += "/graph - Light bar chart across track\n";
@@ -300,7 +300,7 @@ void loop() {
   // Auto-tracking mode
   if (autoTrackingEnabled) {
     if (millis() - lastAutoScan >= AUTO_SCAN_INTERVAL) {
-      bot.sendMessage(chatID, "🔄 Auto-scan starting...", "");
+      bot.sendMessage(chatID, "Auto-scan starting...", "");
       performTrack();
       lastAutoScan = millis();
     }
@@ -313,17 +313,17 @@ void loop() {
 // string, so taps are routed by the same logic as typed commands.
 void sendMenu(String chat_id) {
   String keyboard = "[";
-  keyboard += "[{\"text\":\"📸 Photo\",\"callback_data\":\"/photo\"},";
-  keyboard +=  "{\"text\":\"🔎 Identify\",\"callback_data\":\"/identify\"}],";
-  keyboard += "[{\"text\":\"🩺 Health\",\"callback_data\":\"/health\"},";
-  keyboard +=  "{\"text\":\"🌿 Care\",\"callback_data\":\"/care\"}],";
-  keyboard += "[{\"text\":\"☀️ Track\",\"callback_data\":\"/track\"},";
-  keyboard +=  "{\"text\":\"📊 Graph\",\"callback_data\":\"/graph\"}],";
-  keyboard += "[{\"text\":\"🏠 Home\",\"callback_data\":\"/home\"},";
-  keyboard +=  "{\"text\":\"🎯 End\",\"callback_data\":\"/end\"}],";
-  keyboard += "[{\"text\":\"⬅️ Back 1cm\",\"callback_data\":\"/backward\"},";
-  keyboard +=  "{\"text\":\"➡️ Fwd 1cm\",\"callback_data\":\"/forward\"}],";
-  keyboard += "[{\"text\":\"📍 Status\",\"callback_data\":\"/status\"}]";
+  keyboard += "[{\"text\":\"Photo\",\"callback_data\":\"/photo\"},";
+  keyboard += "{\"text\":\"Identify\",\"callback_data\":\"/identify\"}],";
+  keyboard += "[{\"text\":\"Health\",\"callback_data\":\"/health\"},";
+  keyboard += "{\"text\":\"Care\",\"callback_data\":\"/care\"}],";
+  keyboard += "[{\"text\":\"Track\",\"callback_data\":\"/track\"},";
+  keyboard += "{\"text\":\"Graph\",\"callback_data\":\"/graph\"}],";
+  keyboard += "[{\"text\":\"Home\",\"callback_data\":\"/home\"},";
+  keyboard += "{\"text\":\"End\",\"callback_data\":\"/end\"}],";
+  keyboard += "[{\"text\":\"Back 1cm\",\"callback_data\":\"/backward\"},";
+  keyboard += "{\"text\":\"Fwd 1cm\",\"callback_data\":\"/forward\"}],";
+  keyboard += "[{\"text\":\"Status\",\"callback_data\":\"/status\"}]";
   keyboard += "]";
 
   bot.sendMessageWithInlineKeyboard(chat_id, "Tap a command:", "", keyboard);
@@ -343,7 +343,7 @@ void handleMessages(int numNewMessages) {
     }
     
     if (text == "/start" || text == "/help" || text == "/menu") {
-      String msg = "🌞🌿 Sun Tracker Commands:\n\n";
+      String msg = "Sun Tracker Commands:\n\n";
       msg += "Movement:\n";
       msg += "/scan /graph /track /auto /stop\n";
       msg += "/home /end /status /reset\n";
@@ -373,7 +373,7 @@ void handleMessages(int numNewMessages) {
     else if (text == "/auto") {
       autoTrackingEnabled = true;
       lastAutoScan = millis();
-      bot.sendMessage(chat_id, "✅ Auto-tracking ENABLED\nScanning every 5 minutes", "");
+      bot.sendMessage(chat_id, "Auto-tracking ENABLED\nScanning every 5 minutes", "");
     }
     else if (text == "/stop") {
       autoTrackingEnabled = false;
@@ -381,40 +381,40 @@ void handleMessages(int numNewMessages) {
       bot.sendMessage(chat_id, "⏹ Auto-tracking DISABLED", "");
     }
     else if (text == "/home") {
-      bot.sendMessage(chat_id, "🏠 Going to START (0cm)...", "");
+      bot.sendMessage(chat_id, "Going to START (0cm)...", "");
       goHome();
-      bot.sendMessage(chat_id, "✅ At home position", "");
+      bot.sendMessage(chat_id, "At home position", "");
     }
     else if (text == "/end") {
-      bot.sendMessage(chat_id, "🎯 Going to END (" + String(trackLength, 1) + "cm)...", "");
+      bot.sendMessage(chat_id, "Going to END (" + String(trackLength, 1) + "cm)...", "");
       goToEnd();
-      bot.sendMessage(chat_id, "✅ At end position", "");
+      bot.sendMessage(chat_id, "At end position", "");
     }
     else if (text == "/forward" || text.startsWith("/forward ")) {
       float step = JOG_STEP_CM;
       if (text.length() > 9) step = text.substring(9).toFloat();
       moveDistance(step);
-      bot.sendMessage(chat_id, "➡️ Moved forward. Position: " + String(currentPosition, 1) + " cm", "");
+      bot.sendMessage(chat_id, "Moved forward. Position: " + String(currentPosition, 1) + " cm", "");
     }
     else if (text == "/backward" || text.startsWith("/backward ")) {
       float step = JOG_STEP_CM;
       if (text.length() > 10) step = text.substring(10).toFloat();
       moveDistance(-step);
-      bot.sendMessage(chat_id, "⬅️ Moved backward. Position: " + String(currentPosition, 1) + " cm", "");
+      bot.sendMessage(chat_id, "Moved backward. Position: " + String(currentPosition, 1) + " cm", "");
     }
     else if (text.startsWith("/setlength ")) {
       float newLen = text.substring(11).toFloat();
       if (newLen >= 1.0 && newLen <= 100.0) {
         trackLength = newLen;
         if (currentPosition > trackLength) currentPosition = trackLength;
-        bot.sendMessage(chat_id, "📏 Track length set to " + String(trackLength, 1) + " cm", "");
+        bot.sendMessage(chat_id, "Track length set to " + String(trackLength, 1) + " cm", "");
       } else {
-        bot.sendMessage(chat_id, "⚠️ Invalid length. Use 1-100 cm, e.g. /setlength 20", "");
+        bot.sendMessage(chat_id, "Invalid length. Use 1-100 cm, e.g. /setlength 20", "");
       }
     }
     else if (text == "/status") {
       int light = readLight();
-      String msg = "📊 Status:\n\n";
+      String msg = "Status:\n\n";
       msg += "Position: " + String(currentPosition, 1) + " cm\n";
       msg += "Track length: " + String(trackLength, 1) + " cm\n";
       msg += "Light level: " + String(light) + "\n";
@@ -423,7 +423,7 @@ void handleMessages(int numNewMessages) {
     }
     else if (text == "/reset") {
       currentPosition = 0.0;
-      bot.sendMessage(chat_id, "🔄 Position reset to 0cm (home)", "");
+      bot.sendMessage(chat_id, "Position reset to 0cm (home)", "");
     }
     else if (text == "/photo") {
       handlePhoto(chat_id);
@@ -448,7 +448,7 @@ void handleMessages(int numNewMessages) {
         s->set_exposure_ctrl(s, 1);   // ensure auto exposure on
         s->set_ae_level(s, lvl);
         s->set_brightness(s, lvl);    // match brightness to exposure request
-        bot.sendMessage(chat_id, "🔆 Exposure level set to " + String(lvl) + " (-2 dark .. 2 bright). Take /photo to check.", "");
+        bot.sendMessage(chat_id, "Exposure level set to " + String(lvl) + " (-2 dark .. 2 bright). Take /photo to check.", "");
       }
     }
     else if (text == "/night" || text.startsWith("/night ")) {
@@ -459,7 +459,7 @@ void handleMessages(int numNewMessages) {
       if (s) {
         s->set_exposure_ctrl(s, 0);   // turn OFF auto exposure
         s->set_aec_value(s, val);     // manual exposure time
-        bot.sendMessage(chat_id, "🌙 Manual night mode: exposure=" + String(val) + "/1200.\nSend /night <0-1200> to adjust, /dayexp for auto.", "");
+        bot.sendMessage(chat_id, "Manual night mode: exposure=" + String(val) + "/1200.\nSend /night <0-1200> to adjust, /dayexp for auto.", "");
       }
     }
     else if (text == "/dayexp") {
@@ -467,7 +467,7 @@ void handleMessages(int numNewMessages) {
       if (s) {
         s->set_exposure_ctrl(s, 1);   // back to auto exposure
         s->set_aec2(s, 1);
-        bot.sendMessage(chat_id, "☀️ Auto exposure re-enabled.", "");
+        bot.sendMessage(chat_id, "Auto exposure re-enabled.", "");
       }
     }
     else if (text.startsWith("/setwb ")) {
@@ -477,19 +477,19 @@ void handleMessages(int numNewMessages) {
         s->set_whitebal(s, 1);
         s->set_awb_gain(s, 1);
         s->set_wb_mode(s, mode);      // 0 auto,1 sunny,2 cloudy,3 office,4 home
-        bot.sendMessage(chat_id, "🎨 White-balance mode " + String(mode) + " (0 auto,1 sunny,2 cloudy,3 office,4 home). Take /photo.", "");
+        bot.sendMessage(chat_id, "White-balance mode " + String(mode) + " (0 auto,1 sunny,2 cloudy,3 office,4 home). Take /photo.", "");
       }
     }
   }
 }
 
 void performScan(String chat_id) {
-  bot.sendMessage(chat_id, "🔍 Starting scan...", "");
+  bot.sendMessage(chat_id, "Starting scan...", "");
   
   goHome();
   delay(500);
   
-  String results = "📊 Scan Results:\n\n";
+  String results = "Scan Results:\n\n";
   float stepSize = trackLength / (SCAN_STEPS - 1);
   
   for (int i = 0; i < SCAN_STEPS; i++) {
@@ -502,7 +502,7 @@ void performScan(String chat_id) {
     }
     
     int lightValue = readLight();
-    results += String(currentPosition, 1) + "cm → " + String(lightValue) + "\n";
+    results += String(currentPosition, 1) + "cm " + String(lightValue) + "\n";
     
     Serial.print("Position: ");
     Serial.print(currentPosition, 1);
@@ -512,11 +512,11 @@ void performScan(String chat_id) {
   
   bot.sendMessage(chat_id, results, "");
   goHome();
-  bot.sendMessage(chat_id, "✅ Scan complete, returned home", "");
+  bot.sendMessage(chat_id, "Scan complete, returned home", "");
 }
 
 void performGraph(String chat_id) {
-  bot.sendMessage(chat_id, "📈 Building light map...", "");
+  bot.sendMessage(chat_id, "Building light map...", "");
 
   goHome();
   delay(500);
@@ -543,7 +543,7 @@ void performGraph(String chat_id) {
   }
 
   // Build ASCII bar chart (scaled to brightest reading)
-  String graph = "📊 Light Map (0-30cm):\n\n";
+  String graph = "Light Map (0-30cm):\n\n";
   for (int i = 0; i < SCAN_STEPS; i++) {
     float pos = i * stepSize;
     int bars = (int)((values[i] / (float)maxVal) * 20);
@@ -551,10 +551,10 @@ void performGraph(String chat_id) {
     if (pos < 10) graph += " ";  // align single digits
     graph += "cm |";
     for (int j = 0; j < bars; j++) {
-      graph += "█";
+      graph += "#";
     }
     graph += " " + String(values[i]);
-    if (i == brightestIdx) graph += " ☀️";
+    if (i == brightestIdx) graph += " ";
     graph += "\n";
   }
   graph += "\nBrightest: " + String(brightestIdx * stepSize, 1) + "cm (" + String(maxVal) + ")";
@@ -564,7 +564,7 @@ void performGraph(String chat_id) {
 }
 
 void performTrack() {
-  Serial.println("=== Tracking brightest spot ===");
+  Serial.println("Tracking brightest spot");
   
   goHome();
   delay(500);
@@ -602,7 +602,7 @@ void performTrack() {
   int spread = brightestValue - darkestValue;
   if (spread < 100) {
     goHome();
-    String warn = "⚠️ Can't track - no light difference!\n\n";
+    String warn = "Can't track - no light difference!\n\n";
     warn += "All readings ~" + String(brightestValue) + " (spread only " + String(spread) + ")\n\n";
     warn += "The LDR is saturated. Fix the sensor:\n";
     warn += "- Use a smaller series resistor, or\n";
@@ -614,7 +614,7 @@ void performTrack() {
   
   moveToPosition(brightestPosition);
   
-  String msg = "☀️ Moved to brightest spot!\n\n";
+  String msg = "Moved to brightest spot!\n\n";
   msg += "Position: " + String(brightestPosition, 1) + " cm\n";
   msg += "Light level: " + String(brightestValue) + "\n";
   msg += "(darkest was " + String(darkestValue) + ")";
@@ -622,12 +622,12 @@ void performTrack() {
 }
 
 // Scans the track and positions the plant according to its identified light need:
-//   full sun  -> brightest spot
-//   shade     -> dimmest spot
-//   partial   -> spot closest to the mid brightness level
+// full sun  -> brightest spot
+// shade     -> dimmest spot
+// partial   -> spot closest to the mid brightness level
 void performCareTrack(String chat_id) {
   if (plantLightNeed == LIGHT_UNKNOWN && identifiedPlant.length() == 0) {
-    bot.sendMessage(chat_id, "🤔 No plant identified yet.\nSend /identify first, then /care.", "");
+    bot.sendMessage(chat_id, "No plant identified yet.\nSend /identify first, then /care.", "");
     return;
   }
 
@@ -635,7 +635,7 @@ void performCareTrack(String chat_id) {
   bool assumedPartial = (need == LIGHT_UNKNOWN);
   if (assumedPartial) need = LIGHT_PARTIAL;  // safe default for unknown plants
 
-  String intro = "🌿 Caring for: " + (identifiedPlant.length() ? identifiedPlant : String("plant")) + "\n";
+  String intro = "Caring for: " + (identifiedPlant.length() ? identifiedPlant : String("plant")) + "\n";
   intro += "Target: " + lightNeedLabel(need);
   if (assumedPartial) intro += " (assumed)";
   bot.sendMessage(chat_id, intro, "");
@@ -663,15 +663,15 @@ void performCareTrack(String chat_id) {
   int spread = maxVal - minVal;
   if (spread < 100) {
     goHome();
-    bot.sendMessage(chat_id, "⚠️ Can't position - no light difference across the track (spread " + String(spread) + "). Check the LDR sensor.", "");
+    bot.sendMessage(chat_id, "Can't position - no light difference across the track (spread " + String(spread) + "). Check the LDR sensor.", "");
     return;
   }
 
   // Pick the target brightness for this need
   int target;
-  if (need == LIGHT_FULL_SUN)      target = maxVal;
-  else if (need == LIGHT_SHADE)    target = minVal;
-  else                             target = (maxVal + minVal) / 2;  // partial
+  if (need == LIGHT_FULL_SUN) target = maxVal;
+  else if (need == LIGHT_SHADE) target = minVal;
+  else target = (maxVal + minVal) / 2;  // partial
 
   // Find the position whose reading is closest to the target
   int bestIdx = 0;
@@ -687,7 +687,7 @@ void performCareTrack(String chat_id) {
   float bestPos = bestIdx * stepSize;
   moveToPosition(bestPos);
 
-  String msg = "✅ Positioned for " + lightNeedLabel(need) + "\n\n";
+  String msg = "Positioned for " + lightNeedLabel(need) + "\n\n";
   msg += "Plant: " + (identifiedPlant.length() ? identifiedPlant : String("(unknown)")) + "\n";
   msg += "Position: " + String(bestPos, 1) + " cm\n";
   msg += "Light level: " + String(values[bestIdx]) + "\n";
@@ -708,7 +708,7 @@ uint8_t getNextByte() {
 }
 
 void handlePhoto(String chat_id) {
-  bot.sendMessage(chat_id, "📸 Taking photo...", "");
+  bot.sendMessage(chat_id, "Taking photo...", "");
   
   digitalWrite(USER_LED, HIGH);
   delay(300);
@@ -717,7 +717,7 @@ void handlePhoto(String chat_id) {
   digitalWrite(USER_LED, LOW);
   
   if (!fb) {
-    bot.sendMessage(chat_id, "❌ Camera failed - try again", "");
+    bot.sendMessage(chat_id, "Camera failed - try again", "");
     return;
   }
   
@@ -738,12 +738,12 @@ void handlePhoto(String chat_id) {
   if (sent) {
     Serial.println("Photo sent to Telegram");
   } else {
-    bot.sendMessage(chat_id, "❌ Failed to send photo", "");
+    bot.sendMessage(chat_id, "Failed to send photo", "");
   }
 }
 
 void handleIdentify(String chat_id) {
-  bot.sendMessage(chat_id, "📸 Taking photo...", "");
+  bot.sendMessage(chat_id, "Taking photo...", "");
   
   digitalWrite(USER_LED, HIGH);
   delay(300);
@@ -752,7 +752,7 @@ void handleIdentify(String chat_id) {
   digitalWrite(USER_LED, LOW);
   
   if (!fb) {
-    bot.sendMessage(chat_id, "❌ Camera failed - try again", "");
+    bot.sendMessage(chat_id, "Camera failed - try again", "");
     return;
   }
   
@@ -765,23 +765,23 @@ void handleIdentify(String chat_id) {
                         isMoreDataAvailable, getNextByte,
                         nullptr, nullptr);
   
-  bot.sendMessage(chat_id, "🔍 Identifying plant...", "");
+  bot.sendMessage(chat_id, "Identifying plant...", "");
   
   String result = identifyPlant(fb);
   esp_camera_fb_return(fb);
   currentFb = nullptr;
   
   if (result.length() == 0) {
-    bot.sendMessage(chat_id, "❌ No result from API", "");
+    bot.sendMessage(chat_id, "No result from API", "");
     return;
   }
   
-  String msg = "🌿 Plant ID Result:\n\n" + result;
+  String msg = "Plant ID Result:\n\n" + result;
   bot.sendMessage(chat_id, msg, "");
 }
 
 void handleHealth(String chat_id) {
-  bot.sendMessage(chat_id, "📸 Taking photo...", "");
+  bot.sendMessage(chat_id, "Taking photo...", "");
   
   digitalWrite(USER_LED, HIGH);
   delay(300);
@@ -794,7 +794,7 @@ void handleHealth(String chat_id) {
   digitalWrite(USER_LED, LOW);
   
   if (!fb) {
-    bot.sendMessage(chat_id, "❌ Camera failed - try again", "");
+    bot.sendMessage(chat_id, "Camera failed - try again", "");
     return;
   }
   
@@ -807,14 +807,14 @@ void handleHealth(String chat_id) {
                         isMoreDataAvailable, getNextByte,
                         nullptr, nullptr);
   
-  bot.sendMessage(chat_id, "🩺 Checking plant health...", "");
+  bot.sendMessage(chat_id, "Checking plant health...", "");
   
   String result = checkPlantHealth(fb->buf, fb->len);
   esp_camera_fb_return(fb);
   currentFb = nullptr;
   
   if (result.length() == 0) {
-    bot.sendMessage(chat_id, "❌ No result from API", "");
+    bot.sendMessage(chat_id, "No result from API", "");
     return;
   }
   
@@ -867,8 +867,7 @@ String checkPlantHealth(uint8_t* imgBuf, size_t imgLen) {
     if (err) {
       result = "Failed to parse response";
     } else {
-      // v2/health_assessment nests results under "health_assessment"
-      JsonObject ha = doc["health_assessment"].as<JsonObject>();
+      // v2/health_assessment nests results under "health_assessment"JsonObject ha = doc["health_assessment"].as<JsonObject>();
       if (ha.isNull()) {
         ha = doc.as<JsonObject>();  // fallback if returned at top level
       }
@@ -878,7 +877,7 @@ String checkPlantHealth(uint8_t* imgBuf, size_t imgLen) {
       float healthyProb = ha["is_healthy_probability"].as<float>();
       
       if (!hasProb) {
-        result = "⚠️ Unable to analyze plant health\n\n";
+        result = "Unable to analyze plant health\n\n";
         result += "Try:\n";
         result += "1. Twist camera lens to focus\n";
         result += "2. Get closer (10-30cm)\n";
@@ -886,11 +885,11 @@ String checkPlantHealth(uint8_t* imgBuf, size_t imgLen) {
         result += "4. Take /photo first to check quality";
       }
       else if (isHealthy) {
-        result = "✅ Plant looks healthy!\n";
+        result = "Plant looks healthy!\n";
         result += "Confidence: " + String(healthyProb * 100, 1) + "%\n\n";
         result += "No diseases or pests detected.";
       } else {
-        result = "⚠️ Potential issues detected:\n";
+        result = "Potential issues detected:\n";
         result += "Healthy probability: " + String(healthyProb * 100, 1) + "%\n\n";
         int numDiseases = ha["diseases"].size();
         if (numDiseases > 0) {
@@ -898,11 +897,11 @@ String checkPlantHealth(uint8_t* imgBuf, size_t imgLen) {
             String name = ha["diseases"][i]["name"].as<String>();
             float prob = ha["diseases"][i]["probability"].as<float>();
             result += String(i + 1) + ". " + name + "\n";
-            result += "   Probability: " + String(prob * 100, 0) + "%\n";
+            result += "Probability: " + String(prob * 100, 0) + "%\n";
             if (ha["diseases"][i]["disease_details"]["treatment"]["chemical"].size() > 0) {
               String treatment = ha["diseases"][i]["disease_details"]["treatment"]["chemical"][0].as<String>();
               if (treatment.length() > 0 && treatment.length() < 100) {
-                result += "   Treatment: " + treatment + "\n";
+                result += "Treatment: " + treatment + "\n";
               }
             }
             result += "\n";
@@ -914,9 +913,9 @@ String checkPlantHealth(uint8_t* imgBuf, size_t imgLen) {
       }
     }
   } else if (code == 401) {
-    result = "❌ Invalid API key";
+    result = "Invalid API key";
   } else if (code == 429) {
-    result = "⚠️ Daily limit reached (100/day)";
+    result = "Daily limit reached (100/day)";
   } else {
     result = "API error: " + String(code);
   }
@@ -997,7 +996,7 @@ String identifyPlant(camera_fb_t* fb) {
         if (plantLightNeed == LIGHT_UNKNOWN && common.length() > 0) {
           plantLightNeed = classifyLightNeed(common);
         }
-        result += "\n☀️ Light need: " + lightNeedLabel(plantLightNeed) + "\n";
+        result += "\n Light need: " + lightNeedLabel(plantLightNeed) + "\n";
         result += "Send /care to auto-position for this plant.";
       } else {
         result = "No plant found - try clearer photo";

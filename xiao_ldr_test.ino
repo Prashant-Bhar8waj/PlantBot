@@ -9,7 +9,7 @@ void setup() {
   
   pinMode(LDR_PIN, INPUT);
   
-  Serial.println("\n=== Light Sensor Test ===");
+  Serial.println("\nLight Sensor Test");
   Serial.println("Cover sensor with hand = LOW values");
   Serial.println("Shine light on sensor = HIGH values");
   Serial.println("\nReading light values...\n");
@@ -25,7 +25,7 @@ void loop() {
   // Visual bar graph
   int bars = map(lightValue, 0, 4095, 0, 50);
   for (int i = 0; i < bars; i++) {
-    Serial.print("█");
+    Serial.print("#");
   }
   Serial.println();
   

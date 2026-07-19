@@ -13,7 +13,7 @@ String inputBuffer = "";
 
 void setup() {
   Serial.begin(9600);
-  Serial.println("=== Real-Time Servo Control ===");
+  Serial.println("Real-Time Servo Control");
   Serial.println();
   
   myServo.attach(SERVO_PIN);
@@ -24,14 +24,14 @@ void setup() {
   Serial.println(" degrees");
   Serial.println();
   Serial.println("CONTROLS:");
-  Serial.println("  w/W = +10 degrees");
-  Serial.println("  s/S = -10 degrees");
-  Serial.println("  a/A = +1 degree");
-  Serial.println("  d/D = -1 degree");
+  Serial.println(" w/W = +10 degrees");
+  Serial.println(" s/S = -10 degrees");
+  Serial.println(" a/A = +1 degree");
+  Serial.println(" d/D = -1 degree");
   Serial.println("  0-9 = Type angle (0-180) + Enter");
-  Serial.println("  c = Center (90)");
-  Serial.println("  m = Min (0)");
-  Serial.println("  x = Max (180)");
+  Serial.println(" c = Center (90)");
+  Serial.println(" m = Min (0)");
+  Serial.println(" x = Max (180)");
   Serial.println();
   Serial.println("Ready! Current: 90°");
 }
@@ -59,15 +59,15 @@ void loop() {
     }
     else if (input == 'c' || input == 'C') {
       moveServo(90);
-      Serial.println("→ Center (90°)");
+      Serial.println("Center (90°)");
     }
     else if (input == 'm' || input == 'M') {
       moveServo(0);
-      Serial.println("→ Min (0°)");
+      Serial.println("Min (0°)");
     }
     else if (input == 'x' || input == 'X') {
       moveServo(180);
-      Serial.println("→ Max (180°)");
+      Serial.println("Max (180°)");
     }
     // Number input for precise angle
     else if (input >= '0' && input <= '9') {
@@ -79,11 +79,10 @@ void loop() {
         int angle = inputBuffer.toInt();
         if (angle >= 0 && angle <= 180) {
           moveServo(angle);
-          Serial.print(" → ");
           Serial.print(angle);
           Serial.println("°");
         } else {
-          Serial.println(" → Invalid! (0-180 only)");
+          Serial.println("Invalid! (0-180 only)");
         }
         inputBuffer = "";
       }

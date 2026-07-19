@@ -83,13 +83,13 @@ void handleRoot() {
   html += "</div>";
   html += "<script>";
   html += "function updateServo(pos) {";
-  html += "  document.getElementById('posValue').innerHTML = pos + '°';";
-  html += "  fetch('/servo?pos=' + pos);";
-  html += "  document.getElementById('current').innerHTML = pos + '°';";
+  html += " document.getElementById('posValue').innerHTML = pos + '°';";
+  html += " fetch('/servo?pos=' + pos);";
+  html += " document.getElementById('current').innerHTML = pos + '°';";
   html += "}";
   html += "function setPosition(pos) {";
-  html += "  document.getElementById('servoSlider').value = pos;";
-  html += "  updateServo(pos);";
+  html += " document.getElementById('servoSlider').value = pos;";
+  html += " updateServo(pos);";
   html += "}";
   html += "</script></body></html>";
   

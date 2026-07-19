@@ -23,11 +23,11 @@ void setup() {
   Serial.begin(115200);
   delay(1000);
   
-  Serial.println("\n=== Servo + Light Sensor Test ===");
+  Serial.println("\nServo + Light Sensor Test");
   Serial.println("Commands:");
-  Serial.println("  s = Scan track and show light at each position");
-  Serial.println("  h = Go home (0cm)");
-  Serial.println("  e = Go to end (30cm)");
+  Serial.println(" s = Scan track and show light at each position");
+  Serial.println(" h = Go home (0cm)");
+  Serial.println(" e = Go to end (30cm)");
   Serial.println("  0 = Reset position to 0cm");
   
   myServo.attach(SERVO_PIN, 500, 2400);
@@ -60,7 +60,7 @@ void loop() {
 }
 
 void performScan() {
-  Serial.println("\n=== Starting Scan ===");
+  Serial.println("\nStarting Scan");
   goHome();
   delay(1000);
   
@@ -88,12 +88,12 @@ void performScan() {
     // Bar graph
     int bars = map(lightValue, 1000, 4095, 0, 30);
     for (int j = 0; j < bars; j++) {
-      Serial.print("█");
+      Serial.print("#");
     }
     Serial.println();
   }
   
-  Serial.println("\n=== Scan Complete ===");
+  Serial.println("\nScan Complete");
   goHome();
 }
 

@@ -36,9 +36,7 @@ DHT dht(DHT_PIN, DHT_TYPE);
 #define HUMIDITY_OFFSET 35.0  // Add to raw humidity reading
 
 // Credentials are loaded from credentials.h (gitignored)
-#include "credentials.h"
-
-WiFiClientSecure client;
+#include "credentials.h"WiFiClientSecure client;
 UniversalTelegramBot bot(botToken, client);
 
 unsigned long lastTimeBotRan;
@@ -134,7 +132,7 @@ void setup() {
   client.setInsecure();
   
   // Send startup message
-  bot.sendMessage(chatID, "🌱 Plant Robot is online!\n\nSend /help for commands", "");
+  bot.sendMessage(chatID, "Plant Robot is online!\n\nSend /help for commands", "");
   Serial.println("Startup message sent!");
   
   delay(2000);
@@ -192,7 +190,7 @@ void readSensors() {
     currentTemp = rawTemp + TEMP_OFFSET;
     Serial.print("DHT Raw: ");
     Serial.print(rawTemp, 1);
-    Serial.print("°C → Calibrated: ");
+    Serial.print("°C Calibrated: ");
     Serial.print(currentTemp, 1);
     Serial.print("°C | ");
   } else {
@@ -205,7 +203,7 @@ void readSensors() {
     currentHumidity = constrain(currentHumidity, 0, 100);
     Serial.print("Raw: ");
     Serial.print(rawHumidity, 1);
-    Serial.print("% → Calibrated: ");
+    Serial.print("% Calibrated: ");
     Serial.print(currentHumidity, 1);
     Serial.println("%");
   } else {
@@ -301,7 +299,7 @@ void checkProximity() {
   
   Serial.print("Distance: ");
   Serial.print(distance);
-  Serial.println(" cm");
+  Serial.println("cm");
   
   // Turn on display if someone is close
   if (distance < detectionDistance && distance > 0) {
@@ -321,14 +319,14 @@ void checkProximity() {
 
 void checkMoistureAlert() {
   if (currentMoisture < customAlertThreshold && (millis() - lastMoistureAlert > alertInterval)) {
-    String message = "⚠️ MOISTURE ALERT!\n\n";
-    message += plantName + " needs attention!\n";
-    message += "💧 Moisture: " + String(currentMoisture) + "%\n";
+    String message = "MOISTURE ALERT!\n\n";
+    message += plantName + "needs attention!\n";
+    message += "Moisture: " + String(currentMoisture) + "%\n";
     if (currentTemp > 0) {
-      message += "🌡️ Temp: " + String(currentTemp, 1) + "°C\n";
+      message += "Temp: " + String(currentTemp, 1) + "°C\n";
     }
     if (currentHumidity > 0) {
-      message += "💨 Humidity: " + String(currentHumidity, 1) + "%\n";
+      message += "Humidity: " + String(currentHumidity, 1) + "%\n";
     }
     message += "\nTime to water your plant!";
     
@@ -346,94 +344,94 @@ void handleNewMessages(int numNewMessages) {
     Serial.println("Received: " + text);
     
     if (text == "/start") {
-      String welcome = "🌱 Welcome to Plant Robot!\n\n";
+      String welcome = "Welcome to Plant Robot!\n\n";
       welcome += "Monitoring " + plantName + "\n\n";
       welcome += "Commands:\n/status /help";
       bot.sendMessage(chat_id, welcome, "");
     }
     else if (text == "/status") {
-      String status = "🌱 " + plantName + " Status:\n\n";
-      status += "💧 Moisture: " + String(currentMoisture) + "%\n";
+      String status = " " + plantName + "Status:\n\n";
+      status += "Moisture: " + String(currentMoisture) + "%\n";
       if (currentTemp > 0) {
-        status += "🌡️ Temperature: " + String(currentTemp, 1) + "°C\n";
+        status += "Temperature: " + String(currentTemp, 1) + "°C\n";
       }
       if (currentHumidity > 0) {
-        status += "💨 Humidity: " + String(currentHumidity, 1) + "%\n";
+        status += "Humidity: " + String(currentHumidity, 1) + "%\n";
       }
-      status += "🔔 Alert at: " + String(customAlertThreshold) + "%\n\n";
+      status += "Alert at: " + String(customAlertThreshold) + "%\n\n";
       
       if (currentMoisture < 20) {
-        status += "Status: VERY DRY! 🔴\n⚠️ Water immediately!";
+        status += "Status: VERY DRY! \n Water immediately!";
       } else if (currentMoisture < 40) {
-        status += "Status: DRY 🟡\n💡 Should water soon";
+        status += "Status: DRY \n Should water soon";
       } else if (currentMoisture < 70) {
-        status += "Status: GOOD ✅\n😊 Plant is happy!";
+        status += "Status: GOOD \n Plant is happy!";
       } else {
-        status += "Status: WET 💦\n✋ Don't water yet";
+        status += "Status: WET \n Don't water yet";
       }
       
       if (lastWateredTime > 0) {
         unsigned long hoursSince = (millis() - lastWateredTime) / 3600000;
-        status += "\n\n⏱️ Last watered: " + String(hoursSince) + "h ago";
+        status += "\n\n⏱ Last watered: " + String(hoursSince) + "h ago";
       }
       
       bot.sendMessage(chat_id, status, "");
     }
     else if (text == "/help") {
-      String help = "🌿 Plant Robot Commands:\n\n";
-      help += "📊 Monitoring:\n";
+      String help = "Plant Robot Commands:\n\n";
+      help += "Monitoring:\n";
       help += "/status - Full status\n";
       help += "/history - Last 10 readings\n";
       help += "/environment - Temp & humidity\n\n";
-      help += "💧 Watering:\n";
+      help += "Watering:\n";
       help += "/water - Mark as watered\n";
       help += "/lastwatered - Time since watering\n\n";
-      help += "⚙️ Settings:\n";
+      help += "Settings:\n";
       help += "/setname <name>\n";
       help += "/setalert <value>\n";
       help += "/displayon - Keep display on\n\n";
-      help += "🔔 Auto alerts at " + String(customAlertThreshold) + "%";
+      help += "Auto alerts at " + String(customAlertThreshold) + "%";
       bot.sendMessage(chat_id, help, "");
     }
     else if (text == "/environment") {
-      String env = "🌍 Environment Data:\n\n";
+      String env = "Environment Data:\n\n";
       if (currentTemp > 0) {
-        env += "🌡️ Temperature: " + String(currentTemp, 1) + "°C\n";
-        if (currentTemp < 15) env += "   ❄️ Too cold!\n";
-        else if (currentTemp > 30) env += "   🔥 Too hot!\n";
-        else env += "   ✅ Good\n";
+        env += "Temperature: " + String(currentTemp, 1) + "°C\n";
+        if (currentTemp < 15) env += "Too cold!\n";
+        else if (currentTemp > 30) env += "Too hot!\n";
+        else env += "Good\n";
       }
       if (currentHumidity > 0) {
-        env += "\n💨 Humidity: " + String(currentHumidity, 1) + "%\n";
-        if (currentHumidity < 30) env += "   🏜️ Too dry!\n";
-        else if (currentHumidity > 70) env += "   💦 Too humid!\n";
-        else env += "   ✅ Good\n";
+        env += "\n Humidity: " + String(currentHumidity, 1) + "%\n";
+        if (currentHumidity < 30) env += "Too dry!\n";
+        else if (currentHumidity > 70) env += "Too humid!\n";
+        else env += "Good\n";
       }
-      env += "\n💧 Moisture: " + String(currentMoisture) + "%";
+      env += "\n Moisture: " + String(currentMoisture) + "%";
       bot.sendMessage(chat_id, env, "");
     }
     else if (text == "/water") {
       lastWateredTime = millis();
       lastMoistureAlert = millis();
-      String msg = "💧 " + plantName + " has been watered!\n\n";
+      String msg = " " + plantName + "has been watered!\n\n";
       msg += "Current moisture: " + String(currentMoisture) + "%\n";
       msg += "I'll remind you if it gets dry again.";
       bot.sendMessage(chat_id, msg, "");
     }
     else if (text == "/lastwatered") {
       if (lastWateredTime == 0) {
-        bot.sendMessage(chat_id, "⏱️ No watering recorded yet.\n\nUse /water after watering!", "");
+        bot.sendMessage(chat_id, "⏱ No watering recorded yet.\n\nUse /water after watering!", "");
       } else {
         unsigned long hoursSince = (millis() - lastWateredTime) / 3600000;
         unsigned long minutesSince = ((millis() - lastWateredTime) % 3600000) / 60000;
-        String msg = "⏱️ Last Watered:\n\n";
+        String msg = "⏱ Last Watered:\n\n";
         msg += String(hoursSince) + "h " + String(minutesSince) + "m ago\n\n";
         msg += "Current moisture: " + String(currentMoisture) + "%";
         bot.sendMessage(chat_id, msg, "");
       }
     }
     else if (text == "/history") {
-      String hist = "📊 Moisture History:\n\n";
+      String hist = "Moisture History:\n\n";
       int count = historyFull ? 10 : historyIndex;
       if (count == 0) {
         hist += "No data yet.";
@@ -448,32 +446,32 @@ void handleNewMessages(int numNewMessages) {
           sum += moistureHistory[j];
         }
         int avg = sum / count;
-        hist += "\n📈 Average: " + String(avg) + "%";
+        hist += "\n Average: " + String(avg) + "%";
       }
       bot.sendMessage(chat_id, hist, "");
     }
     else if (text == "/displayon") {
       displayOn = true;
       displayOffTime = millis() + 3600000; // Keep on for 1 hour
-      bot.sendMessage(chat_id, "✅ Display will stay on for 1 hour", "");
+      bot.sendMessage(chat_id, "Display will stay on for 1 hour", "");
     }
     else if (text.startsWith("/setname ")) {
       plantName = text.substring(9);
       plantName.trim();
       if (plantName.length() > 0) {
-        bot.sendMessage(chat_id, "✅ Plant name set to: " + plantName, "");
+        bot.sendMessage(chat_id, "Plant name set to: " + plantName, "");
       } else {
-        bot.sendMessage(chat_id, "❌ Please provide a name.\n\nExample: /setname Basil", "");
+        bot.sendMessage(chat_id, "Please provide a name.\n\nExample: /setname Basil", "");
       }
     }
     else if (text.startsWith("/setalert ")) {
       int newThreshold = text.substring(10).toInt();
       if (newThreshold > 0 && newThreshold <= 100) {
         customAlertThreshold = newThreshold;
-        String msg = "✅ Alert threshold set to " + String(customAlertThreshold) + "%";
+        String msg = "Alert threshold set to " + String(customAlertThreshold) + "%";
         bot.sendMessage(chat_id, msg, "");
       } else {
-        bot.sendMessage(chat_id, "❌ Invalid value. Use 1-100.\n\nExample: /setalert 25", "");
+        bot.sendMessage(chat_id, "Invalid value. Use 1-100.\n\nExample: /setalert 25", "");
       }
     }
     else {

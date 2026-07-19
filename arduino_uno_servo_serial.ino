@@ -12,7 +12,6 @@ int currentPos = 90;
 void setup() {
   Serial.begin(9600);
   Serial.println("Arduino Uno Servo Serial Control");
-  Serial.println("================================");
   
   myServo.attach(SERVO_PIN);
   myServo.write(currentPos);

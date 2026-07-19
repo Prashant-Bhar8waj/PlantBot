@@ -37,7 +37,7 @@ void setup() {
   Serial.begin(115200);
   delay(1000);
   
-  Serial.println("\n=== Sun Tracking Robot ===");
+  Serial.println("\nSun Tracking Robot");
   
   // Setup servo
   myServo.attach(SERVO_PIN, 500, 2400);
@@ -75,7 +75,7 @@ void setup() {
   client.setInsecure();
   
   // Send startup message
-  String msg = "🌞 Sun Tracker Online!\n\n";
+  String msg = "Sun Tracker Online!\n\n";
   msg += "Commands:\n";
   msg += "/scan - Scan track and show light values\n";
   msg += "/track - Find and move to brightest spot\n";
@@ -102,7 +102,7 @@ void loop() {
   // Auto-tracking mode
   if (autoTrackingEnabled) {
     if (millis() - lastAutoScan >= AUTO_SCAN_INTERVAL) {
-      bot.sendMessage(chatID, "🔄 Auto-scan starting...", "");
+      bot.sendMessage(chatID, "Auto-scan starting...", "");
       performTrack();
       lastAutoScan = millis();
     }
@@ -119,7 +119,7 @@ void handleMessages(int numNewMessages) {
     Serial.println("Received: " + text);
     
     if (text == "/start" || text == "/help") {
-      String msg = "🌞 Sun Tracker Commands:\n\n";
+      String msg = "Sun Tracker Commands:\n\n";
       msg += "/scan - Scan full track\n";
       msg += "/track - Move to brightest spot\n";
       msg += "/auto - Auto-track every 5 min\n";
@@ -139,7 +139,7 @@ void handleMessages(int numNewMessages) {
     else if (text == "/auto") {
       autoTrackingEnabled = true;
       lastAutoScan = millis();
-      bot.sendMessage(chat_id, "✅ Auto-tracking ENABLED\nWill scan every 5 minutes", "");
+      bot.sendMessage(chat_id, "Auto-tracking ENABLED\nWill scan every 5 minutes", "");
     }
     else if (text == "/stop") {
       autoTrackingEnabled = false;
@@ -147,37 +147,37 @@ void handleMessages(int numNewMessages) {
       bot.sendMessage(chat_id, "⏹ Auto-tracking DISABLED", "");
     }
     else if (text == "/home") {
-      bot.sendMessage(chat_id, "🏠 Going to START (0cm)...", "");
+      bot.sendMessage(chat_id, "Going to START (0cm)...", "");
       goHome();
-      bot.sendMessage(chat_id, "✅ At home position", "");
+      bot.sendMessage(chat_id, "At home position", "");
     }
     else if (text == "/end") {
-      bot.sendMessage(chat_id, "🎯 Going to END (30cm)...", "");
+      bot.sendMessage(chat_id, "Going to END (30cm)...", "");
       goToEnd();
-      bot.sendMessage(chat_id, "✅ At end position", "");
+      bot.sendMessage(chat_id, "At end position", "");
     }
     else if (text == "/status") {
       int light = readLight();
-      String msg = "📊 Status:\n\n";
-      msg += "Position: " + String(currentPosition, 1) + " cm\n";
+      String msg = "Status:\n\n";
+      msg += "Position: " + String(currentPosition, 1) + "cm\n";
       msg += "Light level: " + String(light) + "\n";
       msg += "Auto-tracking: " + String(autoTrackingEnabled ? "ON" : "OFF");
       bot.sendMessage(chat_id, msg, "");
     }
     else if (text == "/reset") {
       currentPosition = 0.0;
-      bot.sendMessage(chat_id, "🔄 Position reset to 0cm (home)", "");
+      bot.sendMessage(chat_id, "Position reset to 0cm (home)", "");
     }
   }
 }
 
 void performScan(String chat_id) {
-  bot.sendMessage(chat_id, "🔍 Starting scan...", "");
+  bot.sendMessage(chat_id, "Starting scan...", "");
   
   goHome();
   delay(500);
   
-  String results = "📊 Scan Results:\n\n";
+  String results = "Scan Results:\n\n";
   float stepSize = TOTAL_DISTANCE_CM / (SCAN_STEPS - 1);
   
   for (int i = 0; i < SCAN_STEPS; i++) {
@@ -193,21 +193,21 @@ void performScan(String chat_id) {
     // Measure light
     int lightValue = readLight();
     
-    results += String(currentPosition, 1) + "cm → " + String(lightValue) + "\n";
+    results += String(currentPosition, 1) + "cm " + String(lightValue) + "\n";
     
     Serial.print("Position: ");
     Serial.print(currentPosition, 1);
-    Serial.print(" cm | Light: ");
+    Serial.print("cm | Light: ");
     Serial.println(lightValue);
   }
   
   bot.sendMessage(chat_id, results, "");
   goHome();
-  bot.sendMessage(chat_id, "✅ Scan complete, returned home", "");
+  bot.sendMessage(chat_id, "Scan complete, returned home", "");
 }
 
 void performTrack() {
-  Serial.println("=== Tracking brightest spot ===");
+  Serial.println("Tracking brightest spot");
   
   goHome();
   delay(500);
@@ -247,8 +247,8 @@ void performTrack() {
   
   moveToPosition(brightestPosition);
   
-  String msg = "☀️ Moved to brightest spot!\n\n";
-  msg += "Position: " + String(brightestPosition, 1) + " cm\n";
+  String msg = "Moved to brightest spot!\n\n";
+  msg += "Position: " + String(brightestPosition, 1) + "cm\n";
   msg += "Light level: " + String(brightestValue);
   bot.sendMessage(chatID, msg, "");
   

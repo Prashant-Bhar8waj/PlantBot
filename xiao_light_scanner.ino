@@ -23,13 +23,13 @@ float currentPosition = 0.0;  // Current position in cm (0 = start, 30 = end)
 void setup() {
   Serial.begin(115200);
   delay(1000);
-  Serial.println("\n=== Light Scanner ===");
+  Serial.println("\nLight Scanner");
   Serial.println("Commands:");
-  Serial.println("  s = Start scan (move forward, measure at each step)");
-  Serial.println("  h = Go home (return to start)");
-  Serial.println("  e = Go to end");
-  Serial.println("  f = Move forward 1cm");
-  Serial.println("  b = Move backward 1cm");
+  Serial.println(" s = Start scan (move forward, measure at each step)");
+  Serial.println(" h = Go home (return to start)");
+  Serial.println(" e = Go to end");
+  Serial.println(" f = Move forward 1cm");
+  Serial.println(" b = Move backward 1cm");
   Serial.println("  0 = Reset position to 0 (set current position as home)");
   
   myServo.attach(SERVO_PIN, 500, 2400);
@@ -67,7 +67,7 @@ void loop() {
 }
 
 void performScan() {
-  Serial.println("\n=== Starting Scan ===");
+  Serial.println("\nStarting Scan");
   goHome();  // Start from beginning
   delay(500);
   
@@ -92,7 +92,7 @@ void performScan() {
     Serial.println(lightValue);
   }
   
-  Serial.println("\n=== Scan Complete ===");
+  Serial.println("\nScan Complete");
   goHome();
 }
 

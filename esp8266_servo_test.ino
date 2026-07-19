@@ -15,7 +15,7 @@ Servo myServo;
 void setup() {
   Serial.begin(115200);
   delay(1000);
-  Serial.println("\n=== ESP8266 Servo Test ===");
+  Serial.println("\nESP8266 Servo Test");
   Serial.println("0-180 = raw value (find neutral)");
   Serial.println("200   = FORWARD 1 second");
   Serial.println("201   = BACKWARD 1 second");

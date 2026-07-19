@@ -53,7 +53,7 @@ bool cameraInitialized = false;
 
 void setup() {
   Serial.begin(115200);
-  Serial.println("\n=== XIAO ESP32-S3 Camera + Servo ===");
+  Serial.println("\nXIAO ESP32-S3 Camera + Servo");
   
   // Setup continuous rotation servo
   Serial.println("Initializing continuous servo on GPIO 1...");
@@ -62,7 +62,7 @@ void setup() {
   // Make sure it's stopped
   myServo.write(SERVO_STOP);
   delay(500);
-  Serial.println("✓ Servo stopped at center");
+  Serial.println("Servo stopped at center");
   
   // Quick test: spin forward 1s then backward 1s
   Serial.println("Testing servo FWD (120) for 1s...");
@@ -74,10 +74,10 @@ void setup() {
   myServo.write(60);
   delay(1000);
   myServo.write(SERVO_STOP);
-  Serial.println("✓ Servo test done. Check if it moved!");
+  Serial.println("Servo test done. Check if it moved!");
   
   estimatedPosition = 0;
-  Serial.println("✓ Ready at start position");
+  Serial.println("Ready at start position");
   
   // Initialize camera
   if (initCamera()) {
@@ -113,14 +113,14 @@ void setup() {
   }
   
   if (WiFi.status() == WL_CONNECTED) {
-    Serial.println("\n✓ WiFi Connected!");
+    Serial.println("\n WiFi Connected!");
     Serial.print("IP Address: ");
     Serial.println(WiFi.localIP());
     Serial.print("Signal Strength: ");
     Serial.print(WiFi.RSSI());
-    Serial.println(" dBm");
+    Serial.println("dBm");
   } else {
-    Serial.println("\n✗ WiFi connection FAILED!");
+    Serial.println("\n WiFi connection FAILED!");
     Serial.println("Please check:");
     Serial.println("1. WiFi name (SSID): " + String(ssid));
     Serial.println("2. WiFi password is correct");
@@ -134,7 +134,7 @@ void setup() {
   
   // Test Telegram connection
   Serial.println("Testing Telegram connection...");
-  String msg = "🤖 Plant Camera Bot Online!\n\n";
+  String msg = "Plant Camera Bot Online!\n\n";
   msg += "Camera: " + String(cameraInitialized ? "OK" : "FAILED") + "\n";
   msg += "Stick length: 14.5cm\n";
   msg += "Travel distance: ~140mm (time-based)\n\n";
@@ -150,9 +150,9 @@ void setup() {
   msg += "/status - Show current position";
   
   if (bot.sendMessage(chatID, msg, "")) {
-    Serial.println("✓ Telegram connected! Bot ready!");
+    Serial.println("Telegram connected! Bot ready!");
   } else {
-    Serial.println("✗ Telegram connection failed!");
+    Serial.println("Telegram connection failed!");
     Serial.println("Check bot token and chat ID");
   }
   
@@ -175,9 +175,9 @@ void loop() {
     }
     
     if (WiFi.status() == WL_CONNECTED) {
-      Serial.println("\n✓ WiFi reconnected!");
+      Serial.println("\n WiFi reconnected!");
     } else {
-      Serial.println("\n✗ WiFi reconnection failed. Waiting 10s...");
+      Serial.println("\n WiFi reconnection failed. Waiting 10s...");
       delay(10000);
     }
     return;
@@ -190,7 +190,7 @@ void loop() {
     if (numNew) {
       Serial.print("Received ");
       Serial.print(numNew);
-      Serial.println(" new message(s)");
+      Serial.println("new message(s)");
       handleMessages(numNew);
     }
     
@@ -206,7 +206,7 @@ void handleMessages(int numMsgs) {
     Serial.println("Received: " + text);
     
     if (text == "/start") {
-      String msg = "🌱 Plant Camera Bot\n\n";
+      String msg = "Plant Camera Bot\n\n";
       msg += "Control camera position and capture photos\n\n";
       msg += "Commands:\n";
       msg += "/photo - Take photo\n";
@@ -218,20 +218,20 @@ void handleMessages(int numMsgs) {
       bot.sendMessage(chat, msg, "");
     }
     else if (text == "/photo") {
-      bot.sendMessage(chat, "📸 Taking photo...", "");
+      bot.sendMessage(chat, "Taking photo...", "");
       if (takeAndSendPhoto(chat)) {
-        String msg = "✓ Photo captured at ~" + String((int)(estimatedPosition * 140)) + "mm";
+        String msg = "Photo captured at ~" + String((int)(estimatedPosition * 140)) + "mm";
         bot.sendMessage(chat, msg, "");
       } else {
-        bot.sendMessage(chat, "❌ Photo capture failed", "");
+        bot.sendMessage(chat, "Photo capture failed", "");
       }
     }
     else if (text == "/scan") {
-      bot.sendMessage(chat, "🔍 Starting extended scan...", "");
+      bot.sendMessage(chat, "Starting extended scan...", "");
       performScan(chat);
     }
     else if (text == "/sweep") {
-      bot.sendMessage(chat, "🔄 Sweeping full 14cm...", "");
+      bot.sendMessage(chat, "Sweeping full 14cm...", "");
       performSweep(chat);
     }
     else if (text == "/fwd") {
@@ -243,11 +243,11 @@ void handleMessages(int numMsgs) {
       moveFullBackward(chat);
     }
     else if (text == "/home") {
-      bot.sendMessage(chat, "🏠 Moving to home (0%)...", "");
+      bot.sendMessage(chat, "Moving to home (0%)...", "");
       moveFullBackward(chat);
     }
     else if (text == "/end") {
-      bot.sendMessage(chat, "➡️ Moving to end (100%)...", "");
+      bot.sendMessage(chat, "Moving to end (100%)...", "");
       moveFullForward(chat);
     }
     else if (text == "/stop") {
@@ -255,7 +255,7 @@ void handleMessages(int numMsgs) {
       bot.sendMessage(chat, "⏹ Servo stopped!", "");
     }
     else if (text == "/test") {
-      bot.sendMessage(chat, "🔧 Testing servo...", "");
+      bot.sendMessage(chat, "Testing servo...", "");
       // Try full speed forward
       myServo.write(180);
       delay(1000);
@@ -265,10 +265,10 @@ void handleMessages(int numMsgs) {
       myServo.write(0);
       delay(1000);
       myServo.write(SERVO_STOP);
-      bot.sendMessage(chat, "✓ Test done! Did servo move?", "");
+      bot.sendMessage(chat, "Test done! Did servo move?", "");
     }
     else if (text == "/status") {
-      String msg = "📍 Current Position:\n\n";
+      String msg = "Current Position:\n\n";
       msg += "Position: ~" + String((int)(estimatedPosition * 140)) + "mm / 140mm\n";
       msg += "Progress: " + String((int)(estimatedPosition * 100)) + "%\n";
       msg += "Travel time: " + String(TRAVEL_TIME_MS) + "ms";
@@ -280,7 +280,7 @@ void handleMessages(int numMsgs) {
         String msg = "Moving to " + String(pct) + "% (~" + String(pct * 140 / 100) + "mm)...";
         bot.sendMessage(chat, msg, "");
         moveToPosition(pct);
-        bot.sendMessage(chat, "✓ Position reached", "");
+        bot.sendMessage(chat, "Position reached", "");
       } else {
         bot.sendMessage(chat, "Invalid! Use /move 0-100 (percentage)", "");
       }
@@ -293,7 +293,7 @@ void handleMessages(int numMsgs) {
 
 void performScan(String chat) {
   // Scan full 14cm length, taking 5 photos evenly spaced
-  bot.sendMessage(chat, "🔍 Scanning full 14cm (" + String(SCAN_POSITIONS) + " photos)...", "");
+  bot.sendMessage(chat, "Scanning full 14cm (" + String(SCAN_POSITIONS) + "photos)...", "");
   
   // Start from home
   moveFullBackward(chat);
@@ -304,7 +304,7 @@ void performScan(String chat) {
     int pct = (i * 100) / (SCAN_POSITIONS - 1);
     int mm  = pct * 140 / 100;
     
-    String msg = "📸 Photo " + String(i + 1) + "/" + String(SCAN_POSITIONS) + " at ~" + String(mm) + "mm";
+    String msg = "Photo " + String(i + 1) + "/" + String(SCAN_POSITIONS) + "at ~" + String(mm) + "mm";
     bot.sendMessage(chat, msg, "");
     
     moveToPosition(pct);
@@ -313,9 +313,9 @@ void performScan(String chat) {
     delay(500);
   }
   
-  bot.sendMessage(chat, "✓ Scan complete! Returning home...", "");
+  bot.sendMessage(chat, "Scan complete! Returning home...", "");
   moveFullBackward(chat);
-  bot.sendMessage(chat, "✓ Back at home position", "");
+  bot.sendMessage(chat, "Back at home position", "");
 }
 
 void performSweep(String chat) {
@@ -328,7 +328,7 @@ void performSweep(String chat) {
   bot.sendMessage(chat, "⏪ Returning to start...", "");
   moveFullBackward(chat);
   
-  bot.sendMessage(chat, "✓ Full sweep complete!", "");
+  bot.sendMessage(chat, "Full sweep complete!", "");
 }
 
 void moveFullForward(String chat) {
@@ -340,7 +340,7 @@ void moveFullForward(String chat) {
   myServo.write(SERVO_STOP);
   
   estimatedPosition = 1.0;
-  bot.sendMessage(chat, "✓ Reached end!", "");
+  bot.sendMessage(chat, "Reached end!", "");
 }
 
 void moveFullBackward(String chat) {
@@ -352,7 +352,7 @@ void moveFullBackward(String chat) {
   myServo.write(SERVO_STOP);
   
   estimatedPosition = 0;
-  bot.sendMessage(chat, "✓ Back at home!", "");
+  bot.sendMessage(chat, "Back at home!", "");
 }
 
 void servoStop() {
@@ -531,7 +531,7 @@ void moveToPosition(int targetPercent) {
   myServo.write(SERVO_STOP);
   estimatedPosition = target;
   
-  Serial.print("✓ At ~");
+  Serial.print("At ~");
   Serial.print(targetPercent);
   Serial.println("%");
 }
